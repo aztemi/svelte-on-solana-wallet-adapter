@@ -6,14 +6,14 @@
 	import { walletStore } from '@aztemi/svelte-on-solana-wallet-adapter-core';
 
 	export let idl,
-		network: string,
-		config: Commitment | ConnectionConfig | undefined = 'processed';
+		endpoint: string,
+		config: Commitment | ConnectionConfig | undefined = 'confirmed';
 
 	const { PublicKey } = web3;
 	const programID = new PublicKey(idl.metadata.address);
 	const baseAccount = web3.Keypair.generate();
 	const systemProgram = web3.SystemProgram;
-	const connection = new Connection(network, config);
+	const connection = new Connection(endpoint, config);
 
 	function defineProgramAndProvider(walletStore) {
 		let { sendTransaction, signTransaction, signAllTransactions, signMessage, publicKey } =
@@ -35,7 +35,7 @@
 			provider,
 			program,
 			systemProgram,
-			network
+			endpoint
 		});
 		return {
 			baseAccount,
@@ -43,7 +43,7 @@
 			provider,
 			program,
 			systemProgram,
-			network
+			endpoint
 		};
 	}
 

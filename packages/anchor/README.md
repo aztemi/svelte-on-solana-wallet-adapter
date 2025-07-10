@@ -33,12 +33,12 @@ export default config
 
 The `AnchorConnectionProvider` for Anchor Dapps accepts the next props.
 
-| prop    | type     | default |
-| ------- | -------- | ------- |
-| network | `string` |         |
-| idl     | `Idl`    |         |
+| prop     | type     | default |
+| -------- | -------- | ------- |
+| endpoint | `string` |         |
+| idl      | `Idl`    |         |
 
-It is automatically connected to the `workSpace` defining all the parameters to share among the components in your Anchor Dapp **(baseAccount, connection, provider, program, systemProgram and network)**.
+It is automatically connected to the `workSpace` defining all the parameters to share among the components in your Anchor Dapp **(baseAccount, connection, provider, program, systemProgram and endpoint)**.
 
 ## SvelteKit
 
@@ -53,7 +53,7 @@ In the **\_\_layout.svelte** component you can import the wallets and setup the 
 	import idl from '../../../target/idl/<my-anchor-project>.json';
 
 	const localStorageKey = 'walletAdapter';
-	const network = clusterApiUrl('devnet'); // localhost or mainnet
+	const endpoint = clusterApiUrl('devnet'); // localhost or mainnet
 
 	let wallets;
 
@@ -79,7 +79,7 @@ In the **\_\_layout.svelte** component you can import the wallets and setup the 
 </script>
 
 <WalletProvider {localStorageKey} {wallets} autoConnect />
-<AnchorConnectionProvider {network} {idl} />
+<AnchorConnectionProvider {endpoint} {idl} />
 <div>
 	<slot />
 </div>
@@ -100,13 +100,13 @@ In `App.svelte` or the entry point of your SPA, you can setup the wallet and com
 	import { PhantomWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adapter-wallets';
 
 	const localStorageKey = 'walletAdapter';
-	const network = clusterApiUrl('devnet'); // localhost or mainnet
+	const endpoint = clusterApiUrl('devnet'); // localhost or mainnet
 
 	let wallets = [new PhantomWalletAdapter(), new SolflareWalletAdapter()];
 </script>
 
 <WalletProvider {localStorageKey} {wallets} autoConnect />
-<AnchorConnectionProvider {network} {idl} />
+<AnchorConnectionProvider {endpoint} {idl} />
 <WalletMultiButton />
 
 {#if $walletStore?.connected}

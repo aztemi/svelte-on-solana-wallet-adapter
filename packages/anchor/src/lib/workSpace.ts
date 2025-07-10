@@ -8,7 +8,7 @@ export type WorkSpace = {
   provider?: Provider;
   program?: Program;
   systemProgram?: typeof web3.SystemProgram;
-  network: string;
+  endpoint: string;
 };
 
 export const workSpace = writable<WorkSpace>(undefined);

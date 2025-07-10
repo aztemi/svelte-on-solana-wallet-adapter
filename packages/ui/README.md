@@ -42,14 +42,14 @@ There are three components that you need to get set up:
 
 | prop    | type     | default |
 | ------- | -------- | ------- |
-| network | `string` |         |
+| endpoint | `string` |         |
 
 Alternatively you can use `AnchorConnectionProvider` for Anchor Dapps.
 
-| prop    | type     | default |
-| ------- | -------- | ------- |
-| network | `string` |         |
-| idl     | `Idl`    |         |
+| prop     | type     | default |
+| -------- | -------- | ------- |
+| endpoint | `string` |         |
+| idl      | `Idl`    |         |
 
 `WalletMultiButton` is a component used as the entry point to connect/disconnect a wallet.
 
@@ -117,7 +117,7 @@ And then in the **\_\_layout.svelte** component you can import the wallets and s
 	} from '@svelte-on-solana/wallet-adapter-ui';
 
 	const localStorageKey = 'walletAdapter';
-	const network = clusterApiUrl('devnet'); // localhost or mainnet
+	const endpoint = clusterApiUrl('devnet'); // localhost or mainnet
 
 	let wallets;
 
@@ -143,7 +143,7 @@ And then in the **\_\_layout.svelte** component you can import the wallets and s
 </script>
 
 <WalletProvider {localStorageKey} {wallets} autoConnect />
-<ConnectionProvider {network} />
+<ConnectionProvider {endpoint} />
 <div>
 	<slot />
 </div>
@@ -214,13 +214,13 @@ export default {
 	import { PhantomWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adapter-wallets';
 
 	const localStorageKey = 'walletAdapter';
-	const network = clusterApiUrl('devnet'); // localhost or mainnet
+	const endpoint = clusterApiUrl('devnet'); // localhost or mainnet
 
 	let wallets = [new PhantomWalletAdapter(), new SolflareWalletAdapter()];
 </script>
 
 <WalletProvider {localStorageKey} {wallets} autoConnect />
-<ConnectionProvider {network} />
+<ConnectionProvider {endpoint} />
 <WalletMultiButton />
 
 {#if $walletStore?.connected}
