@@ -15,7 +15,7 @@ import { get, writable } from 'svelte/store';
 import { WalletNotSelectedError } from './errors';
 import { getLocalStorage, setLocalStorage } from './localStorage';
 
-interface Wallet {
+export interface Wallet {
     adapter: Adapter;
     readyState: WalletReadyState;
 }
@@ -35,7 +35,7 @@ export interface WalletStore {
     walletsByName: Record<WalletName, Adapter>;
     name: WalletName | null;
     adapter: Adapter | null;
-    wallet: Adapter | null;
+    wallet: Wallet | null;
     connected: boolean;
     connecting: boolean;
     disconnecting: boolean;
@@ -121,7 +121,7 @@ function createWalletStore() {
         localStorageKey: 'walletAdapter',
         onError: (error: WalletError) => console.error(error),
         publicKey: null,
-        ready: 'Unsupported' as WalletReadyState,
+        ready: WalletReadyState.Unsupported,
         wallet: null,
         name: null,
         walletsByName: {},
@@ -136,20 +136,19 @@ function createWalletStore() {
 
     function updateWalletState(adapter: Adapter | null) {
         updateAdapter(adapter);
+        const readyState = adapter?.readyState || WalletReadyState.Unsupported;
         update((store: WalletStore) => ({
             ...store,
             name: adapter?.name || null,
-            wallet: adapter,
-            ready: adapter?.readyState || 'Unsupported' as WalletReadyState,
+            wallet: adapter ? { adapter, readyState } : null,
+            ready: readyState,
             publicKey: adapter?.publicKey || null,
             connected: adapter?.connected || false,
         }));
 
         if (!adapter) return;
 
-		if (shouldAutoConnect()) {
-			autoConnect();
-		}
+        if (shouldAutoConnect()) autoConnect();
     }
 
     function updateWalletName(name: WalletName | null) {

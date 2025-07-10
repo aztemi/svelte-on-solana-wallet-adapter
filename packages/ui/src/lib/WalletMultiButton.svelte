@@ -71,7 +71,7 @@
             class="wallet-adapter-button-trigger"
         >
             <svelte:fragment slot="start-icon">
-                <img src={wallet.icon} alt={`${wallet.name} icon`} />
+                <img src={wallet.adapter.icon} alt={`${wallet.adapter.name} icon`} />
             </svelte:fragment>
             {content}
         </WalletButton>
