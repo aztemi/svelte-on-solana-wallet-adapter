@@ -4,10 +4,11 @@ This is a fork of [svelte-on-solana/wallet-adapter](https://github.com/svelte-on
 
 -   Mobile Wallet Adapter support
 -   Wallet Standard support
+-   Sign-In With Solana (SIWS) support
 -   Wallets list sorted to show detected wallets first
 -   Dependencies upgraded to recent versions
 -   Accessibility warnings fixed
--   NPM packages released under `@aztemi` scope since `@svelte-on-solana` is not recently maintained.
+-   NPM packages released under `@aztemi` scope as `@svelte-on-solana` is no longer maintained.
 
 Original ReadMe below:
 
@@ -21,29 +22,33 @@ Modular TypeScript wallet adapter and UI components for Solana/Anchor applicatio
 
 ## Packages
 
-- [Core][1] - Svelte Store which exposes methods and properties to run the wallet in your application
-- [UI][2] - Pre-built components for integrating with Solana wallets using Svelte
-- [Anchor][3] - Helper components for working with Anchor
+-   [Core][1] - Svelte Store which exposes methods and properties to run the wallet in your application
+-   [UI][2] - Pre-built components for integrating with Solana wallets using Svelte
+-   [Anchor][3] - Helper components for working with Anchor
 
 ## Build from Source
 
 1. Clone the project:
+
 ```shell
-git clone https://github.com/svelte-on-solana/wallet-adapter.git
+git clone https://github.com/aztemi/svelte-on-solana-wallet-adapter.git
 ```
 
 2. Install dependencies:
+
 ```shell
 cd wallet-adapter
 yarn install
 ```
 
 3. Build all packages:
+
 ```shell
 yarn build
 ```
 
 4. Run locally:
+
 ```shell
 cd packages/ui/
 yarn start

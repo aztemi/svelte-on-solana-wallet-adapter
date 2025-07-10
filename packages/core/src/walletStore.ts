@@ -3,8 +3,8 @@ import type {
     MessageSignerWalletAdapter,
     MessageSignerWalletAdapterProps,
     SendTransactionOptions,
-    SignerWalletAdapter,
     SignerWalletAdapterProps,
+    SignInMessageSignerWalletAdapterProps,
     WalletAdapterProps,
     WalletError,
     WalletName,
@@ -53,6 +53,7 @@ export interface WalletStore {
     signTransaction: SignerWalletAdapterProps['signTransaction'] | undefined;
     signAllTransactions: SignerWalletAdapterProps['signAllTransactions'] | undefined;
     signMessage: MessageSignerWalletAdapterProps['signMessage'] | undefined;
+    signIn: SignInMessageSignerWalletAdapterProps['signIn'] | undefined;
 }
 
 export const walletStore = createWalletStore();
@@ -132,6 +133,7 @@ function createWalletStore() {
         signTransaction: undefined,
         signAllTransactions: undefined,
         signMessage: undefined,
+        signIn: undefined,
     });
 
     function updateWalletState(adapter: Adapter | null) {
@@ -170,6 +172,7 @@ function createWalletStore() {
         let signTransaction: SignerWalletAdapterProps['signTransaction'] | undefined = undefined;
         let signAllTransactions: SignerWalletAdapterProps['signAllTransactions'] | undefined = undefined;
         let signMessage: MessageSignerWalletAdapter['signMessage'] | undefined = undefined;
+        let signIn: SignInMessageSignerWalletAdapterProps['signIn'] | undefined = undefined;
 
         if (adapter) {
             // Sign a transaction if the wallet supports it
@@ -198,9 +201,16 @@ function createWalletStore() {
                     return await adapter.signMessage(message);
                 };
             }
+
+            // Sign in if the wallet supports it
+            if ('signIn' in adapter) {
+                signIn = async function (input) {
+                    return await adapter.signIn(input);
+                };
+            }
         }
 
-        update((store: WalletStore) => ({ ...store, signTransaction, signAllTransactions, signMessage }));
+        update((store: WalletStore) => ({ ...store, signTransaction, signAllTransactions, signMessage, signIn }));
     }
 
     return {
