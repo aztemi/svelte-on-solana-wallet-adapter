@@ -3,8 +3,9 @@ import type {
     MessageSignerWalletAdapter,
     MessageSignerWalletAdapterProps,
     SendTransactionOptions,
-    SignerWalletAdapter,
     SignerWalletAdapterProps,
+    SignInMessageSignerWalletAdapterProps,
+    WalletAdapterProps,
     WalletError,
     WalletName,
 } from '@solana/wallet-adapter-base';
@@ -14,7 +15,7 @@ import { get, writable } from 'svelte/store';
 import { WalletNotSelectedError } from './errors';
 import { getLocalStorage, setLocalStorage } from './localStorage';
 
-interface Wallet {
+export interface Wallet {
     adapter: Adapter;
     readyState: WalletReadyState;
 }
@@ -31,7 +32,10 @@ export interface WalletStore {
     wallets: Wallet[];
 
 	// wallet state
+    walletsByName: Record<WalletName, Adapter>;
+    name: WalletName | null;
     adapter: Adapter | null;
+    wallet: Wallet | null;
     connected: boolean;
     connecting: boolean;
     disconnecting: boolean;
@@ -39,22 +43,17 @@ export interface WalletStore {
     onError: ErrorHandler;
     publicKey: PublicKey | null;
     ready: WalletReadyState;
-    wallet: Adapter | null;
-    walletsByName: Record<WalletName, Adapter>;
-    name: WalletName | null;
 
 	// wallet methods
+    select(walletName: WalletName | null): void;
     connect(): Promise<void>;
     disconnect(): Promise<void>;
-    select(walletName: WalletName): void;
-    sendTransaction(
-        transaction: Transaction | VersionedTransaction,
-        connection: Connection,
-        options?: SendTransactionOptions
-    ): Promise<TransactionSignature>;
+
+    sendTransaction: WalletAdapterProps['sendTransaction'];
+    signTransaction: SignerWalletAdapterProps['signTransaction'] | undefined;
     signAllTransactions: SignerWalletAdapterProps['signAllTransactions'] | undefined;
     signMessage: MessageSignerWalletAdapterProps['signMessage'] | undefined;
-    signTransaction: SignerWalletAdapterProps['signTransaction'] | undefined;
+    signIn: SignInMessageSignerWalletAdapterProps['signIn'] | undefined;
 }
 
 export const walletStore = createWalletStore();
@@ -123,7 +122,7 @@ function createWalletStore() {
         localStorageKey: 'walletAdapter',
         onError: (error: WalletError) => console.error(error),
         publicKey: null,
-        ready: 'Unsupported' as WalletReadyState,
+        ready: WalletReadyState.Unsupported,
         wallet: null,
         name: null,
         walletsByName: {},
@@ -134,24 +133,24 @@ function createWalletStore() {
         signTransaction: undefined,
         signAllTransactions: undefined,
         signMessage: undefined,
+        signIn: undefined,
     });
 
     function updateWalletState(adapter: Adapter | null) {
         updateAdapter(adapter);
+        const readyState = adapter?.readyState || WalletReadyState.Unsupported;
         update((store: WalletStore) => ({
             ...store,
             name: adapter?.name || null,
-            wallet: adapter,
-            ready: adapter?.readyState || 'Unsupported' as WalletReadyState,
+            wallet: adapter ? { adapter, readyState } : null,
+            ready: readyState,
             publicKey: adapter?.publicKey || null,
             connected: adapter?.connected || false,
         }));
 
         if (!adapter) return;
 
-		if (shouldAutoConnect()) {
-			autoConnect();
-		}
+        if (shouldAutoConnect()) autoConnect();
     }
 
     function updateWalletName(name: WalletName | null) {
@@ -170,14 +169,15 @@ function createWalletStore() {
     }
 
     function updateAdapterFeatures(adapter: Adapter) {
-        let signTransaction: SignerWalletAdapter['signTransaction'] | undefined = undefined;
-        let signAllTransactions: SignerWalletAdapter['signAllTransactions'] | undefined = undefined;
+        let signTransaction: SignerWalletAdapterProps['signTransaction'] | undefined = undefined;
+        let signAllTransactions: SignerWalletAdapterProps['signAllTransactions'] | undefined = undefined;
         let signMessage: MessageSignerWalletAdapter['signMessage'] | undefined = undefined;
+        let signIn: SignInMessageSignerWalletAdapterProps['signIn'] | undefined = undefined;
 
         if (adapter) {
             // Sign a transaction if the wallet supports it
             if ('signTransaction' in adapter) {
-                signTransaction = async function <T extends Transaction | VersionedTransaction>(transaction: T) {
+                signTransaction = async function (transaction) {
                     const { connected } = get(walletStore);
                     if (!connected) throw newError(new WalletNotConnectedError());
                     return await adapter.signTransaction(transaction);
@@ -186,7 +186,7 @@ function createWalletStore() {
 
             // Sign multiple transactions if the wallet supports it
             if ('signAllTransactions' in adapter) {
-                signAllTransactions = async function <T extends Transaction | VersionedTransaction>(transactions: T[]) {
+                signAllTransactions = async function (transactions) {
                     const { connected } = get(walletStore);
                     if (!connected) throw newError(new WalletNotConnectedError());
                     return await adapter.signAllTransactions(transactions);
@@ -195,15 +195,22 @@ function createWalletStore() {
 
             // Sign an arbitrary message if the wallet supports it
             if ('signMessage' in adapter) {
-                signMessage = async function (message: Uint8Array) {
+                signMessage = async function (message) {
                     const { connected } = get(walletStore);
                     if (!connected) throw newError(new WalletNotConnectedError());
                     return await adapter.signMessage(message);
                 };
             }
+
+            // Sign in if the wallet supports it
+            if ('signIn' in adapter) {
+                signIn = async function (input) {
+                    return await adapter.signIn(input);
+                };
+            }
         }
 
-        update((store: WalletStore) => ({ ...store, signTransaction, signAllTransactions, signMessage }));
+        update((store: WalletStore) => ({ ...store, signTransaction, signAllTransactions, signMessage, signIn }));
     }
 
     return {
@@ -336,8 +343,8 @@ async function sendTransaction(
     options?: SendTransactionOptions
 ): Promise<TransactionSignature> {
     const { connected, adapter } = get(walletStore);
-    if (!connected) throw newError(new WalletNotConnectedError());
     if (!adapter) throw newError(new WalletNotSelectedError());
+    if (!connected) throw newError(new WalletNotConnectedError());
 
     return await adapter.sendTransaction(transaction, connection, options);
 }

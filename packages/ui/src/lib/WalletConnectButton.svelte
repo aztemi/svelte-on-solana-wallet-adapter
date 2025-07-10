@@ -4,7 +4,7 @@
 
 	export let disabled: boolean = false;
 
-	let content;
+	let content: string;
 
 	$: ({ wallet, connect, connecting, connected } = $walletStore);
 
@@ -27,7 +27,7 @@
 >
 	<svelte:fragment slot="start-icon">
 		{#if wallet}
-			<img src={wallet.icon} alt={`${wallet.name} icon`} />
+			<img src={wallet.adapter.icon} alt={`${wallet.adapter.name} icon`} />
 		{/if}
 	</svelte:fragment>
 	{content}
