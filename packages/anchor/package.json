@@ -1,6 +1,6 @@
 {
 	"name": "@aztemi/svelte-on-solana-wallet-adapter-anchor",
-	"version": "1.1.5",
+	"version": "1.2.0",
 	"author": "Svelte on Solana",
 	"repository": "https://github.com/aztemi/wallet-adapter",
 	"type": "module",
