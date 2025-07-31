@@ -20,7 +20,7 @@
 		autoConnect: boolean | ((adapter: Adapter) => boolean) = false,
 		onError = (error: WalletError) => console.error(error);
 
-	$: wallets.length && updateWallets();
+	$: (wallets || wallets.length) && updateWallets();
 
 	function updateWallets() {
 		// get installed wallets compatible with the standard
