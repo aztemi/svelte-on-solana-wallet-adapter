@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { WalletReadyState, isWalletAdapterCompatibleStandardWallet } from '@solana/wallet-adapter-base';
+	import {
+		WalletReadyState,
+		isWalletAdapterCompatibleStandardWallet
+	} from '@solana/wallet-adapter-base';
 	import { StandardWalletAdapter } from '@solana/wallet-standard-wallet-adapter-base';
 	import {
 		createDefaultAddressSelector,
@@ -40,8 +43,10 @@
 		if (mobileWallet) allWallets.unshift(mobileWallet);
 
 		// sort 'Installed' wallets first and 'Loadable' next
-		const installedFirst = (a: Adapter, b: Adapter) => detectedFirst(WalletReadyState.Installed, a, b);
-		const loadableFirst = (a: Adapter, b: Adapter) => detectedFirst(WalletReadyState.Loadable, a, b);
+		const installedFirst = (a: Adapter, b: Adapter) =>
+			detectedFirst(WalletReadyState.Installed, a, b);
+		const loadableFirst = (a: Adapter, b: Adapter) =>
+			detectedFirst(WalletReadyState.Loadable, a, b);
 		allWallets.sort(loadableFirst).sort(installedFirst);
 
 		// initialize wallets store
@@ -69,7 +74,8 @@
 		if (
 			wallets.some(
 				({ name, readyState }) =>
-					name === SolanaMobileWalletAdapterWalletName || readyState === WalletReadyState.Installed
+					name === SolanaMobileWalletAdapterWalletName ||
+					readyState === WalletReadyState.Installed
 			)
 		) {
 			return null;

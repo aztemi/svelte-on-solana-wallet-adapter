@@ -10,7 +10,7 @@ During this process, you will:
 
 -   📦 Install the base wallet adapters
 -   📦 Install the svelte adapter and svelte UI
--   🔨 Add the `ConnectionProvider` ([`AnchorConnectionProvider`](https://github.com/svelte-on-solana/wallet-adapter/blob/master/packages/anchor/README.md) if you're using Anchor)
+-   🔨 Add the `ConnectionProvider` ([`AnchorConnectionProvider`](../anchor/README.md) if you're using Anchor)
 -   🔨 Add the `WalletProvider` component
 -   🔨 Add the `WalletMultiButton` component
 
@@ -27,7 +27,7 @@ npm i @svelte-on-solana/wallet-adapter-ui
 There are three components that you need to get set up:
 
 -   `WalletProvider`
--   `ConnectionProvider` (`[AnchorConnectionProvider](https://github.com/svelte-on-solana/wallet-adapter/blob/master/packages/anchor/README.md)` if you're using Anchor)
+-   `ConnectionProvider` ([`AnchorConnectionProvider`](../anchor/README.md) if you're using Anchor)
 -   `WalletMultiButton`
 
 `WalletProvider` is a component used to initialize the wallet stores and add event listeners
@@ -40,8 +40,8 @@ There are three components that you need to get set up:
 
 `ConnectionProvider` is a component used to establish a connection with the network.
 
-| prop    | type     | default |
-| ------- | -------- | ------- |
+| prop     | type     | default |
+| -------- | -------- | ------- |
 | endpoint | `string` |         |
 
 Alternatively you can use `AnchorConnectionProvider` for Anchor Dapps.
@@ -68,26 +68,26 @@ npm install -D @esbuild-plugins/node-globals-polyfill @rollup/plugin-inject roll
 Then you have to adjust the **vite.config.js** file to prepare the project for all the Solana packages previously installed.
 
 ```javascript
-import { sveltekit } from '@sveltejs/kit/vite'
+import { sveltekit } from '@sveltejs/kit/vite';
 
 const config = {
 	plugins: [sveltekit()],
 	optimizeDeps: {
 		include: ['@solana/web3.js', 'buffer'],
 		esbuildOptions: {
-				target: 'esnext',
-				plugins: [NodeGlobalsPolyfillPlugin({ buffer: true })],
-		},
+			target: 'esnext',
+			plugins: [NodeGlobalsPolyfillPlugin({ buffer: true })]
+		}
 	},
 	resolve: {
 		alias: {
 			$utils: path.resolve('src/utils/'),
-			stream: 'rollup-plugin-node-polyfills/polyfills/stream',
-		},
+			stream: 'rollup-plugin-node-polyfills/polyfills/stream'
+		}
 	},
 	define: {
 		'process.env.BROWSER': true,
-		'process.env.NODE_DEBUG': JSON.stringify(''),
+		'process.env.NODE_DEBUG': JSON.stringify('')
 	},
 	build: {
 		target: 'esnext',
@@ -95,12 +95,12 @@ const config = {
 			transformMixedEsModules: true
 		},
 		rollupOptions: {
-			plugins: [inject({ Buffer: ['buffer', 'Buffer'] }), nodePolyfills({ crypto: true })],
-		},
+			plugins: [inject({ Buffer: ['buffer', 'Buffer'] }), nodePolyfills({ crypto: true })]
+		}
 	}
-}
+};
 
-export default config
+export default config;
 ```
 
 And then in the **\_\_layout.svelte** component you can import the wallets and setup the UI components.
@@ -123,11 +123,11 @@ And then in the **\_\_layout.svelte** component you can import the wallets and s
 
 	onMount(async () => {
 		const {
-		PhantomWalletAdapter,
-		SlopeWalletAdapter,
-		SolflareWalletAdapter,
-		SolletExtensionWalletAdapter,
-		TorusWalletAdapter,
+			PhantomWalletAdapter,
+			SlopeWalletAdapter,
+			SolflareWalletAdapter,
+			SolletExtensionWalletAdapter,
+			TorusWalletAdapter
 		} = await import('@solana/wallet-adapter-wallets');
 
 		const walletsMap = [
@@ -135,7 +135,7 @@ And then in the **\_\_layout.svelte** component you can import the wallets and s
 			new SlopeWalletAdapter(),
 			new SolflareWalletAdapter(),
 			new SolletExtensionWalletAdapter(),
-			new TorusWalletAdapter(),
+			new TorusWalletAdapter()
 		];
 
 		wallets = walletsMap;
@@ -230,7 +230,7 @@ export default {
 
 ## Working with Anchor
 
-If you work with Anchor you will need the `AnchorConnectionProvider` component and its workSpace [@svelte-on-solana/wallet-adapter-anchor](https://github.com/svelte-on-solana/wallet-adapter/blob/master/packages/anchor/README.md)
+If you work with Anchor you will need the `AnchorConnectionProvider` component and its workSpace [@svelte-on-solana/wallet-adapter-anchor](../anchor/README.md)
 
 ## Example Implementation
 
