@@ -3,12 +3,12 @@ import type { Program, Provider, web3 } from '@coral-xyz/anchor';
 import type { Connection, Keypair } from '@solana/web3.js';
 
 export type WorkSpace = {
-  baseAccount?: Keypair;
-  connection: Connection;
-  provider?: Provider;
-  program?: Program;
-  systemProgram?: typeof web3.SystemProgram;
-  endpoint: string;
+	baseAccount?: Keypair;
+	connection: Connection;
+	provider?: Provider;
+	program?: Program;
+	systemProgram?: typeof web3.SystemProgram;
+	endpoint: string;
 };
 
 export const workSpace = writable<WorkSpace>(undefined);
