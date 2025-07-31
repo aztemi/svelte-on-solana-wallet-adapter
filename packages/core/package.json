@@ -1,6 +1,6 @@
 {
     "name": "@aztemi/svelte-on-solana-wallet-adapter-core",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "author": "Svelte on Solana",
     "repository": "https://github.com/aztemi/wallet-adapter",
     "license": "Apache-2.0",
