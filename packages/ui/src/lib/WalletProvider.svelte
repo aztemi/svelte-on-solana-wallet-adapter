@@ -15,7 +15,7 @@
 	import type { Adapter, WalletError } from '@solana/wallet-adapter-base';
 	import { workSpace } from './workSpace';
 
-	export let localStorageKey: string,
+	export let localStorageKey: string = 'SolanaWalletAdapter',
 		wallets: Adapter[] = [],
 		autoConnect: boolean | ((adapter: Adapter) => boolean) = false,
 		onError = (error: WalletError) => console.error(error);

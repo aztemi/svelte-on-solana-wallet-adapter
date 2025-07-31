@@ -6,7 +6,7 @@
     import { clickOutside } from './clickOutside';
     import { WalletReadyState, type WalletName } from '@solana/wallet-adapter-base';
 
-    export let maxNumberOfWallets;
+    export let maxNumberOfWallets = 3;
 
     let showMoreOptions = false,
         showExtensionsAvailables = false;
