@@ -1,4 +1,4 @@
-# `@svelte-on-solana/wallet-adapter-ui`
+# `@aztemi/svelte-on-solana-wallet-adapter-ui`
 
 Pre-built components for integrating with Solana wallets using Svelte
 
@@ -16,10 +16,10 @@ During this process, you will:
 
 ## Installing
 
-You have already installed the core package to run the wallet Svelte Store [@svelte-on-solana/wallet-adapter-core](github.com/svelte-on-solana/wallet-adapter/blob/master/packages/core/README.md). Then install the UI components contained in this package
+You have already installed the core package to run the wallet Svelte Store [@aztemi/svelte-on-solana-wallet-adapter-core](../core/README.md). Then install the UI components contained in this package
 
 ```shell
-npm i @svelte-on-solana/wallet-adapter-ui
+npm i @aztemi/svelte-on-solana-wallet-adapter-ui
 ```
 
 ## Set Up
@@ -114,7 +114,7 @@ And then in the **\_\_layout.svelte** component you can import the wallets and s
 		WalletProvider,
 		WalletMultiButton,
 		ConnectionProvider
-	} from '@svelte-on-solana/wallet-adapter-ui';
+	} from '@aztemi/svelte-on-solana-wallet-adapter-ui';
 
 	const localStorageKey = 'walletAdapter';
 	const endpoint = clusterApiUrl('devnet'); // localhost or mainnet
@@ -203,13 +203,13 @@ export default {
 
 ```html
 <script lang="ts">
-	import { walletStore } from '@svelte-on-solana/wallet-adapter-core';
+	import { walletStore } from '@aztemi/svelte-on-solana-wallet-adapter-core';
 	import {
 		workSpace,
 		WalletProvider,
 		WalletMultiButton,
 		ConnectionProvider
-	} from '@svelte-on-solana/wallet-adapter-ui';
+	} from '@aztemi/svelte-on-solana-wallet-adapter-ui';
 	import { clusterApiUrl } from '@solana/web3.js';
 	import { PhantomWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adapter-wallets';
 
@@ -230,11 +230,11 @@ export default {
 
 ## Working with Anchor
 
-If you work with Anchor you will need the `AnchorConnectionProvider` component and its workSpace [@svelte-on-solana/wallet-adapter-anchor](../anchor/README.md)
+If you work with Anchor you will need the `AnchorConnectionProvider` component and its workSpace [@aztemi/svelte-on-solana-wallet-adapter-anchor](../anchor/README.md)
 
 ## Example Implementation
 
-See example implementations of the `@svelte-on-solana/wallet-adapter-ui` library.
+See example implementations of the `@aztemi/svelte-on-solana-wallet-adapter-ui` library.
 
 -   [Demo site][1]
 

@@ -1,4 +1,4 @@
-# `@svelte-on-solana/wallet-adapter-core`
+# `@aztemi/svelte-on-solana-wallet-adapter-core`
 
 The core of the wallet adapter is a Svelte Store which exposes methods and properties to run the wallet in your application. This allows to share this data among all components in your application.
 
@@ -8,7 +8,7 @@ The core of the wallet adapter is a Svelte Store which exposes methods and prope
 npm install @solana/wallet-adapter-base \
             @solana/wallet-adapter-wallets \
             @solana/web3.js \
-            @svelte-on-solana/wallet-adapter-core
+            @aztemi/svelte-on-solana-wallet-adapter-core
 ```
 
 ## Use
@@ -17,7 +17,7 @@ Once it is installed, you can use it and subscribe to its methods as an usual Sv
 
 ```html
 <script>
-    import { walletStore } from '@svelte-on-solana/wallet-adapter-core';
+    import { walletStore } from '@aztemi/svelte-on-solana-wallet-adapter-core';
     //...
 </script>
 
