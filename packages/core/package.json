@@ -27,14 +27,14 @@
         "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.98.0"
+        "@solana/web3.js": "^1.98.4"
     },
     "dependencies": {
         "@solana/wallet-adapter-base": "^0.9.27"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.98.2",
-        "svelte": "^3.0.0"
+        "@solana/web3.js": "^1.98.4",
+        "svelte": "^3.59.2"
     },
     "keywords": [
         "svelte",

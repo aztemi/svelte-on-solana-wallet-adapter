@@ -16,24 +16,24 @@
 	},
 	"devDependencies": {
 		"@sveltejs/kit": "next",
-		"@typescript-eslint/eslint-plugin": "^4.31.1",
-		"@typescript-eslint/parser": "^4.31.1",
+		"@typescript-eslint/eslint-plugin": "^4.33.0",
+		"@typescript-eslint/parser": "^4.33.0",
 		"eslint": "^7.32.0",
-		"eslint-config-prettier": "^8.3.0",
-		"eslint-plugin-svelte3": "^3.2.1",
-		"prettier": "^2.4.1",
-		"prettier-plugin-svelte": "^2.4.0",
-		"svelte": "^3.46.2",
-		"svelte-preprocess": "^4.9.4",
-		"svelte2tsx": "^0.4.8",
-		"tslib": "^2.3.1",
-		"typescript": "^4.4.3"
+		"eslint-config-prettier": "^8.10.0",
+		"eslint-plugin-svelte3": "^3.4.1",
+		"prettier": "^2.8.8",
+		"prettier-plugin-svelte": "^2.10.1",
+		"svelte": "^3.59.2",
+		"svelte-preprocess": "^4.10.7",
+		"svelte2tsx": "^0.4.14",
+		"tslib": "^2.8.1",
+		"typescript": "^4.9.5"
 	},
 	"dependencies": {
 		"eventemitter3": "^5.0.1"
 	},
 	"peerDependencies": {
-		"@coral-xyz/anchor": "^0.28.1-beta.2"
+		"@coral-xyz/anchor": "^0.32.1"
 	},
 	"keywords": [
 		"svelte",
